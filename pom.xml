@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.demo.testng.program</groupId>
-    <artifactId>testngprogram</artifactId>
+    <artifactId>automation-test</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -46,6 +46,11 @@
             <version>7.22.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>5.7.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java -->
         <dependency>
             <groupId>io.github.cdimascio</groupId>
@@ -55,30 +60,40 @@
     </dependencies>
 
     <build>
-        <!-- To define the plugin version in your parent POM -->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.5.3</version>
-                    <configuration>
-                        <forkCount>0</forkCount>
-                        <suiteXmlFiles>
-                            <!-- <suiteXmlFile>src/test/resources/testng_simple_suite.xml</suiteXmlFile> -->
-                            <suiteXmlFile>src/test/resources/testng_parallel_suite.xml</suiteXmlFile>
-                        </suiteXmlFiles>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <!-- To use the plugin goals in your POM or parent POM -->
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+            <groupId>net.masterthought</groupId>
+            <artifactId>maven-cucumber-reporting</artifactId>
+            <version>5.7.0</version>
+                <executions>
+                    <execution>
+                    <id>generate-cucumber-reports</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                        <configuration>
+                            <projectName>Automation Test</projectName>
+                            <jsonFiles>
+                                <param>cucumber.json</param>
+                            </jsonFiles>
+                            <outputDirectory>target</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0</version> <!-- or a stable version you use -->
+            <configuration>
+                <suiteXmlFiles>
+                <suiteXmlFile>src/test/resources/cucumber_suite.xml</suiteXmlFile>
+                </suiteXmlFiles>
+            </configuration>
             </plugin>
         </plugins>
     </build>
+
 
 </project>
